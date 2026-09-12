@@ -10,6 +10,11 @@ body { margin: 0; min-width: 320px; min-height: 100vh; background: #fbf5ea; }
 button, input { font: inherit; }
 ::selection { background: #ffddd8; color: #a9231a; }
 
+/* 夜间模式根样式 */
+.dark { color: #f3e6d0; background: #0f0e0d; }
+.dark body { background: #0f0e0d; }
+.dark ::selection { background: #e13b2b; color: #fffdf8; }
+
 /* 老人模式全局基础：放大字号约 1.25 倍 */
 .elderly { font-size: 125%; }
 
@@ -19,13 +24,28 @@ button, input { font: inherit; }
 .elderly .text-white\/30 { color: rgb(255 255 255 / 0.75); }
 .elderly .text-white\/40 { color: rgb(255 255 255 / 0.8); }
 
+/* 老人模式 + 夜间模式：提升半透明文字在深色背景下的对比度 */
+.dark.elderly .text-white\/30 { color: rgb(255 255 255 / 0.85); }
+.dark.elderly .text-white\/40 { color: rgb(255 255 255 / 0.9); }
+.dark.elderly .text-rice-200\/60 { color: rgb(243 230 208 / 0.95); }
+
 /* 老人模式：主要交互元素触控区域 ≥ 44px */
 .elderly button { min-height: 2.2rem; }
+
+/* 图片暗色蒙层：夜间模式下菜品/门店图片添加半透明暗色叠层 */
+.dark .img-dark-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 14, 13, 0.32);
+  pointer-events: none;
+  border-radius: inherit;
+}
 
 /* 界面状态切换平滑过渡 */
 html { transition: background-color 250ms ease, color 250ms ease, font-size 250ms ease; }
 html * {
-  transition-property: background-color, border-color, color, fill, stroke, font-size;
+  transition-property: background-color, border-color, color, fill, stroke, font-size, box-shadow;
   transition-duration: 250ms;
   transition-timing-function: ease;
 }
@@ -34,6 +54,10 @@ html * {
   .safe-bottom { padding-bottom: max(1rem, env(safe-area-inset-bottom)); }
   .paper-noise {
     background-image: radial-gradient(rgba(170, 110, 60, .08) .7px, transparent .7px);
+    background-size: 12px 12px;
+  }
+  .dark .paper-noise {
+    background-image: radial-gradient(rgba(255, 255, 255, .04) .7px, transparent .7px);
     background-size: 12px 12px;
   }
   .scrollbar-none::-webkit-scrollbar { display: none; }
